@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Java Resource,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="引子事件描述​    开发环境：Mac， dea，Spring boot 1.5.3.RELEASE ​    在开发微信小程序客服消息的时候，需要针对context为1的内容回复一张图片。 ​    因为，微信小程序相关的配置都是写在Common模板下的，所以就把图片放在Common模块下的resource中。  ​        IDEA中，使用以下代码都能拿到图片对象。 1InputStre">
+<meta name="keywords" content="Java Resource">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Resource">
+<meta property="og:url" content="https://adeng-wc.github.io/2019/05/22/Resource/index.html">
+<meta property="og:site_name" content="Weng Cheng&#39;s Blog">
+<meta property="og:description" content="引子事件描述​    开发环境：Mac， dea，Spring boot 1.5.3.RELEASE ​    在开发微信小程序客服消息的时候，需要针对context为1的内容回复一张图片。 ​    因为，微信小程序相关的配置都是写在Common模板下的，所以就把图片放在Common模块下的resource中。  ​        IDEA中，使用以下代码都能拿到图片对象。 1InputStre">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/006tNc79ly1g3a6opuyvvj30bs07gmxk.jpg">
+<meta property="og:updated_time" content="2019-05-31T09:00:42.260Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Resource">
+<meta name="twitter:description" content="引子事件描述​    开发环境：Mac， dea，Spring boot 1.5.3.RELEASE ​    在开发微信小程序客服消息的时候，需要针对context为1的内容回复一张图片。 ​    因为，微信小程序相关的配置都是写在Common模板下的，所以就把图片放在Common模块下的resource中。  ​        IDEA中，使用以下代码都能拿到图片对象。 1InputStre">
+<meta name="twitter:image" content="http://ww2.sinaimg.cn/large/006tNc79ly1g3a6opuyvvj30bs07gmxk.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://adeng-wc.github.io/2019/05/22/Resource/">
+
+
+
+
+
+  <title>Resource | Weng Cheng's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Weng Cheng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://adeng-wc.github.io/2019/05/22/Resource/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Weng Cheng">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weng Cheng's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Resource</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-22T15:35:55+08:00">
+                2019-05-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><h3 id="事件描述"><a href="#事件描述" class="headerlink" title="事件描述"></a>事件描述</h3><p>​    开发环境：Mac， dea，Spring boot 1.5.3.RELEASE</p>
+<p>​    在开发微信小程序客服消息的时候，需要针对context为1的内容回复一张图片。</p>
+<p>​    因为，微信小程序相关的配置都是写在Common模板下的，所以就把图片放在Common模块下的resource中。</p>
+<p><img src="http://ww2.sinaimg.cn/large/006tNc79ly1g3a6opuyvvj30bs07gmxk.jpg" alt="image-20190522164029948"></p>
+<p>​        IDEA中，使用以下代码都能拿到图片对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">InputStream is = ClassLoader.getSystemResourceAsStream(<span class="string">"qrcode_for_gh_ac1de8498046_258.jpg"</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">InputStream is = WxMaServiceConfiguration.class.getResourceAsStream(<span class="string">"/qrcode_for_gh_ac1de8498046_258.jpg"</span>);</span><br></pre></td></tr></table></figure>
+<p>​    当项目部署到服务器上的tomcat的时候，以上两个方法就都找不到图片对象了。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-webroot</span><br><span class="line">	-WEB-INF</span><br><span class="line">		-classes</span><br><span class="line">			-application.properties</span><br><span class="line">			......</span><br><span class="line">		-lib</span><br><span class="line">			-xxx-common-1.0.0-SNAPSHOT.jar(jarz中包含了图片)</span><br></pre></td></tr></table></figure>
+<p>​    </p>
+<p>​    为什么开发环境可以加载，部署到服务器上就加载不了了呢？</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><h3 id="ClassLoader-getSystemResourceAsStream"><a href="#ClassLoader-getSystemResourceAsStream" class="headerlink" title="ClassLoader.getSystemResourceAsStream"></a>ClassLoader.getSystemResourceAsStream</h3><h4 id="java-lang-ClassLoader"><a href="#java-lang-ClassLoader" class="headerlink" title="java.lang.ClassLoader"></a>java.lang.ClassLoader</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">ClassLoader</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> InputStream <span class="title">getSystemResourceAsStream</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">    URL url = getSystemResource(name);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> url != <span class="keyword">null</span> ? url.openStream() : <span class="keyword">null</span>;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> URL <span class="title">getSystemResource</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">    ClassLoader system = getSystemClassLoader();</span><br><span class="line">    <span class="keyword">if</span> (system == <span class="keyword">null</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> getBootstrapResource(name);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> system.getResource(name);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@CallerSensitive</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ClassLoader <span class="title">getSystemClassLoader</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    initSystemClassLoader();</span><br><span class="line">    <span class="keyword">if</span> (scl == <span class="keyword">null</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    SecurityManager sm = System.getSecurityManager();</span><br><span class="line">    <span class="keyword">if</span> (sm != <span class="keyword">null</span>) &#123;</span><br><span class="line">      checkClassLoaderPermission(scl, Reflection.getCallerClass());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> scl;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">initSystemClassLoader</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!sclSet) &#123;</span><br><span class="line">      <span class="keyword">if</span> (scl != <span class="keyword">null</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"recursive invocation"</span>);</span><br><span class="line">      sun.misc.Launcher l = sun.misc.Launcher.getLauncher();</span><br><span class="line">      <span class="keyword">if</span> (l != <span class="keyword">null</span>) &#123;</span><br><span class="line">        Throwable oops = <span class="keyword">null</span>;</span><br><span class="line">        scl = l.getClassLoader();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">          scl = AccessController.doPrivileged(</span><br><span class="line">            <span class="keyword">new</span> SystemClassLoaderAction(scl));</span><br><span class="line">        &#125; <span class="keyword">catch</span> (PrivilegedActionException pae) &#123;</span><br><span class="line">          oops = pae.getCause();</span><br><span class="line">          <span class="keyword">if</span> (oops <span class="keyword">instanceof</span> InvocationTargetException) &#123;</span><br><span class="line">            oops = oops.getCause();</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (oops != <span class="keyword">null</span>) &#123;</span><br><span class="line">          <span class="keyword">if</span> (oops <span class="keyword">instanceof</span> Error) &#123;</span><br><span class="line">            <span class="keyword">throw</span> (Error) oops;</span><br><span class="line">          &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// wrap the exception</span></span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> Error(oops);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      sclSet = <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> URL <span class="title">getBootstrapResource</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">    URLClassPath ucp = getBootstrapClassPath();</span><br><span class="line">    Resource res = ucp.getResource(name);</span><br><span class="line">    <span class="keyword">return</span> res != <span class="keyword">null</span> ? res.getURL() : <span class="keyword">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">static</span> URLClassPath <span class="title">getBootstrapClassPath</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Bootstrap 从 Launcher 的方法中初始化</span></span><br><span class="line">    <span class="keyword">return</span> sun.misc.Launcher.getBootstrapClassPath();</span><br><span class="line">  &#125;</span><br><span class="line">  ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="sun-misc-Launcher"><a href="#sun-misc-Launcher" class="headerlink" title="sun.misc.Launcher"></a>sun.misc.Launcher</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Launcher</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> URLStreamHandlerFactory factory = <span class="keyword">new</span> Launcher.Factory();</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> Launcher launcher = <span class="keyword">new</span> Launcher();</span><br><span class="line">  <span class="comment">// &#123;$JAVA_HOME&#125;/jre/lib 和 &#123;$JAVA_HOME&#125;/jre/classes，Bootstrap ClassLoader的路径</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> String bootClassPath = System.getProperty(<span class="string">"sun.boot.class.path"</span>);</span><br><span class="line">  <span class="keyword">private</span> ClassLoader loader;</span><br><span class="line"></span><br><span class="line">  ......</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Launcher</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Launcher.ExtClassLoader var1;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="comment">// ExtClassLoader </span></span><br><span class="line">      var1 = Launcher.ExtClassLoader.getExtClassLoader();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException var10) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> InternalError(<span class="string">"Could not create extension class loader"</span>, var10);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="comment">// AppClassLoader</span></span><br><span class="line">      <span class="keyword">this</span>.loader = Launcher.AppClassLoader.getAppClassLoader(var1);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException var9) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> InternalError(<span class="string">"Could not create application class loader"</span>, var9);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Thread.currentThread().setContextClassLoader(<span class="keyword">this</span>.loader);</span><br><span class="line">    ......</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> URLClassPath <span class="title">getBootstrapClassPath</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> Launcher.BootClassPathHolder.bcp;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  ......</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">BootClassPathHolder</span> </span>&#123;</span><br><span class="line">      <span class="comment">// URLClassPath</span></span><br><span class="line">      <span class="keyword">static</span> <span class="keyword">final</span> URLClassPath bcp;</span><br><span class="line">      <span class="function"><span class="keyword">private</span> <span class="title">BootClassPathHolder</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">static</span> &#123;</span><br><span class="line">        URL[] var0;</span><br><span class="line">        <span class="keyword">if</span> (Launcher.bootClassPath != <span class="keyword">null</span>) &#123;</span><br><span class="line">          var0 = (URL[])AccessController.doPrivileged(<span class="keyword">new</span> PrivilegedAction&lt;URL[]&gt;() &#123;</span><br><span class="line">            <span class="keyword">public</span> URL[] run() &#123;</span><br><span class="line">              File[] var1 = Launcher.getClassPath(Launcher.bootClassPath);</span><br><span class="line">              <span class="keyword">int</span> var2 = var1.length;</span><br><span class="line">              HashSet var3 = <span class="keyword">new</span> HashSet();</span><br><span class="line"></span><br><span class="line">              <span class="keyword">for</span>(<span class="keyword">int</span> var4 = <span class="number">0</span>; var4 &lt; var2; ++var4) &#123;</span><br><span class="line">                File var5 = var1[var4];</span><br><span class="line">                <span class="keyword">if</span> (!var5.isDirectory()) &#123;</span><br><span class="line">                  var5 = var5.getParentFile();</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (var5 != <span class="keyword">null</span> &amp;&amp; var3.add(var5)) &#123;</span><br><span class="line">                  MetaIndex.registerDirectory(var5);</span><br><span class="line">                &#125;</span><br><span class="line">              &#125;</span><br><span class="line"></span><br><span class="line">              <span class="keyword">return</span> Launcher.pathToURLs(var1);</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          var0 = <span class="keyword">new</span> URL[<span class="number">0</span>];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        bcp = <span class="keyword">new</span> URLClassPath(var0, Launcher.factory, (AccessControlContext)<span class="keyword">null</span>);</span><br><span class="line">        bcp.initLookupCache((ClassLoader)<span class="keyword">null</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">AppClassLoader</span> <span class="keyword">extends</span> <span class="title">URLClassLoader</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ClassLoader <span class="title">getAppClassLoader</span><span class="params">(<span class="keyword">final</span> ClassLoader var0)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">      <span class="keyword">final</span> String var1 = System.getProperty(<span class="string">"java.class.path"</span>);</span><br><span class="line">      <span class="keyword">final</span> File[] var2 = var1 == <span class="keyword">null</span> ? <span class="keyword">new</span> File[<span class="number">0</span>] : Launcher.getClassPath(var1);</span><br><span class="line">      <span class="keyword">return</span> (ClassLoader)AccessController.doPrivileged(<span class="keyword">new</span> PrivilegedAction&lt;Launcher.AppClassLoader&gt;() &#123;</span><br><span class="line">        <span class="keyword">public</span> Launcher.<span class="function">AppClassLoader <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">          URL[] var1x = var1 == <span class="keyword">null</span> ? <span class="keyword">new</span> URL[<span class="number">0</span>] : Launcher.pathToURLs(var2);</span><br><span class="line">          <span class="keyword">return</span> <span class="keyword">new</span> Launcher.AppClassLoader(var1x, var0);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    ......</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从上面代码可以知道，<code>java.lang.ClassLoader#getSystemClassLoader</code> 获取是 <code>sun.misc.Launcher.AppClassLoader</code>。</p>
+<p><code>java.lang.ClassLoader#getBootstrapResource</code> 方法，返回的是 <code>sun.misc.URLClassPath</code> 对象。这个对象是在rt.jar包中的。</p>
+<p>​    </p>
+<p><a href="https://blog.csdn.net/briblue/article/details/54973413" target="_blank" rel="noopener">https://blog.csdn.net/briblue/article/details/54973413</a>  详细看下 这里的classloader内容。</p>
+<h3 id="XXX-class-getResourceAsStream"><a href="#XXX-class-getResourceAsStream" class="headerlink" title="XXX.class.getResourceAsStream"></a>XXX.class.getResourceAsStream</h3><p>WebappClassLoader  可以加载 jar中的资源文件</p>
+<p>WebappClassLoader<br>  context:<br>  delegate: false<br>  repositories:<br>    /WEB-INF/classes/<br>———-&gt; Parent Classloader:<br>org.apache.catalina.loader.StandardClassLoader@2145b572</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ClassLoader.getSystemClassLoader().getClass()</span><br><span class="line">  </span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">sun</span>.<span class="title">misc</span>.<span class="title">Launcher</span>$<span class="title">AppClassLoader</span></span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java-Resource/" rel="tag"># Java Resource</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/13/Async/" rel="next" title="Async">
+                <i class="fa fa-chevron-left"></i> Async
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/31/使用WxJava开发微信小程序/" rel="prev" title="使用WxJava开发微信小程序">
+                使用WxJava开发微信小程序 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Weng Cheng</p>
+              <p class="site-description motion-element" itemprop="description">记录成长中的点滴</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#引子"><span class="nav-number">1.</span> <span class="nav-text">引子</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#事件描述"><span class="nav-number">1.1.</span> <span class="nav-text">事件描述</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分析"><span class="nav-number">2.</span> <span class="nav-text">分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ClassLoader-getSystemResourceAsStream"><span class="nav-number">2.1.</span> <span class="nav-text">ClassLoader.getSystemResourceAsStream</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#java-lang-ClassLoader"><span class="nav-number">2.1.1.</span> <span class="nav-text">java.lang.ClassLoader</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sun-misc-Launcher"><span class="nav-number">2.1.2.</span> <span class="nav-text">sun.misc.Launcher</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XXX-class-getResourceAsStream"><span class="nav-number">2.2.</span> <span class="nav-text">XXX.class.getResourceAsStream</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Weng Cheng</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

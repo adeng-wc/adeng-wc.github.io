@@ -232,6 +232,334 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://adeng-wc.github.io/2019/06/03/使用WxJava开发微信公众号/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Weng Cheng">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weng Cheng's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/03/使用WxJava开发微信公众号/" itemprop="url">使用WxJava开发微信公众号</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-06-03T14:35:15+08:00">
+                2019-06-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="公众号-服务号-配置"><a href="#公众号-服务号-配置" class="headerlink" title="公众号(服务号)配置"></a>公众号(服务号)配置</h2><p>利用 <code>weixin-java-mp</code> 配置 appId 和 secret 。</p>
+<ol>
+<li><p>添加pom.xml依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;com.github.binarywang&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;weixin-java-mp&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;3.3.8.B&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加<code>application.yml</code>配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">wx:  </span><br><span class="line">  mp:</span><br><span class="line">    configs:</span><br><span class="line">      - appId: xxx #（一个公众号的appid）（测试平台账号）</span><br><span class="line">        secret: xxx</span><br><span class="line">        token: test_token #（接口配置里的Token值）</span><br><span class="line">        aesKey: iKVJDUh1yWR7PWB83D7z93HLn48wILNMU4Ls8A681pK #（接口配置里的EncodingAESKey值）</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol start="3">
+<li>Java配置</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@ConfigurationProperties</span>(prefix = <span class="string">"wx.mp"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WxMpProperties</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> List&lt;MpConfig&gt; configs;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Data</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MpConfig</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 设置微信公众号的appid</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">    <span class="keyword">private</span> String appId;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 设置微信公众号的app secret</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">    <span class="keyword">private</span> String secret;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 设置微信公众号的token</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">    <span class="keyword">private</span> String token;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 设置微信公众号的EncodingAESKey</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">    <span class="keyword">private</span> String aesKey;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableConfigurationProperties</span>(WxMpProperties.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WxMpServiceConfiguration</span> </span>&#123;</span><br><span class="line">  <span class="meta">@Autowired</span></span><br><span class="line">  <span class="keyword">private</span> WxMpProperties properties;</span><br><span class="line">  </span><br><span class="line">  <span class="meta">@Bean</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> WxMpService <span class="title">wxMpService</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> List&lt;WxMpProperties.MpConfig&gt; configs = <span class="keyword">this</span>.properties.getConfigs();</span><br><span class="line">    <span class="keyword">if</span> (configs == <span class="keyword">null</span>) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"大哥，拜托先看下项目首页的说明（readme文件），添加下相关配置，注意别配错了！"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    WxMpService service = <span class="keyword">new</span> WxMpServiceImpl();</span><br><span class="line">    Map&lt;String, WxMpConfigStorage&gt; collect = configs</span><br><span class="line">      .stream().map(a -&gt; &#123;</span><br><span class="line">      WxMpInMemoryConfigStorage configStorage = <span class="keyword">new</span> WxMpInMemoryConfigStorage();</span><br><span class="line">      configStorage.setAppId(a.getAppId());</span><br><span class="line">      configStorage.setSecret(a.getSecret());</span><br><span class="line">      configStorage.setToken(a.getToken());</span><br><span class="line">      configStorage.setAesKey(a.getAesKey());</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> configStorage;</span><br><span class="line">    &#125;).collect(Collectors.toMap(WxMpInMemoryConfigStorage::getAppId, a -&gt; a, (o, n) -&gt; o));</span><br><span class="line">    service.setMultiConfigStorages(collect);</span><br><span class="line">    <span class="keyword">return</span> service;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"xxx/&#123;appid&#125;"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WxMpPortalController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Autowired</span></span><br><span class="line">  <span class="keyword">private</span> WxMpServiceAdapter wxAdapter;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@GetMapping</span>(produces = <span class="string">"text/plain;charset=utf-8"</span>)</span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">authGet</span><span class="params">(@PathVariable String appid,</span></span></span><br><span class="line"><span class="function"><span class="params">                        @RequestParam(name = <span class="string">"signature"</span>, required = <span class="keyword">false</span>)</span> String signature,</span></span><br><span class="line"><span class="function">                        @<span class="title">RequestParam</span><span class="params">(name = <span class="string">"timestamp"</span>, required = <span class="keyword">false</span>)</span> String timestamp,</span></span><br><span class="line"><span class="function">                        @<span class="title">RequestParam</span><span class="params">(name = <span class="string">"nonce"</span>, required = <span class="keyword">false</span>)</span> String nonce,</span></span><br><span class="line"><span class="function">                        @<span class="title">RequestParam</span><span class="params">(name = <span class="string">"echostr"</span>, required = <span class="keyword">false</span>)</span> String echostr) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (StringUtils.isAnyBlank(signature, timestamp, nonce, echostr)) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"请求参数非法，请核实!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!wxAdapter.switchover(appid)) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(String.format(<span class="string">"未找到对应appid=[%s]的配置，请核实！"</span>, appid));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (wxAdapter.checkSignature(timestamp, nonce, signature)) &#123;</span><br><span class="line">      <span class="keyword">return</span> echostr;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"非法请求"</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="接入测试平台"><a href="#接入测试平台" class="headerlink" title="接入测试平台"></a>接入测试平台</h2><p>​    由于微信公众号(服务号)认证成本较高，因此提供了 <a href="https://mp.weixin.qq.com/debug/cgi-bin/sandboxinfo?action=showinfo&amp;t=sandbox/index" target="_blank" rel="noopener">微信公众平台接口调试工具</a> 。</p>
+<p>​    <strong>测试号信息</strong> 提供了测试号的 appID 和 appsecret，需要配置在后端应用中。</p>
+<p>​    <strong>接口配置信息</strong> 配置后端的接口。</p>
+<h2 id="消息管理"><a href="#消息管理" class="headerlink" title="消息管理"></a>消息管理</h2><h3 id="服务号通知配置"><a href="#服务号通知配置" class="headerlink" title="服务号通知配置"></a>服务号通知配置</h3><p>​    在使用公众号 消息管理 前，需要在 <code>开发 》基础配置 》服务器配置</code> 配置开发者配置。</p>
+<h3 id="接收事件推送"><a href="#接收事件推送" class="headerlink" title="接收事件推送"></a>接收事件推送</h3><h4 id="关注-取消关注事件"><a href="#关注-取消关注事件" class="headerlink" title="关注/取消关注事件"></a>关注/取消关注事件</h4><p>​    用户在关注与取消关注公众号时，微信会把这个事件推送到开发者填写的URL。方便开发者给用户下发欢迎消息或者做帐号的解绑。为保护用户数据隐私，开发者收到用户取消关注事件时需要删除该用户的所有信息。</p>
+<p>推送XML数据包示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;xml&gt;</span><br><span class="line">  &lt;ToUserName&gt;&lt;![CDATA[toUser]]&gt;&lt;/ToUserName&gt;</span><br><span class="line">  &lt;FromUserName&gt;&lt;![CDATA[FromUser]]&gt;&lt;/FromUserName&gt;</span><br><span class="line">  &lt;CreateTime&gt;123456789&lt;/CreateTime&gt;</span><br><span class="line">  &lt;MsgType&gt;&lt;![CDATA[event]]&gt;&lt;/MsgType&gt;</span><br><span class="line">  &lt;Event&gt;&lt;![CDATA[subscribe]]&gt;&lt;/Event&gt;  </span><br><span class="line">&lt;/xml&gt;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">ToUserName</td>
+<td style="text-align:left">开发者微信号</td>
+</tr>
+<tr>
+<td style="text-align:left">FromUserName</td>
+<td style="text-align:left">发送方帐号（一个OpenID）</td>
+</tr>
+<tr>
+<td style="text-align:left">CreateTime</td>
+<td style="text-align:left">消息创建时间 （整型）</td>
+</tr>
+<tr>
+<td style="text-align:left">MsgType</td>
+<td style="text-align:left">消息类型，event</td>
+</tr>
+<tr>
+<td style="text-align:left">Event</td>
+<td style="text-align:left">事件类型，subscribe(订阅)、unsubscribe(取消订阅)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h4><blockquote>
+<ol>
+<li>由于微信公众号的<strong>UnionID机制</strong>，一个用户同时关注公众号和小程序，会有两个OpenID和一个UnionID。但是前提是需要在 <a href="https://open.weixin.qq.com/" target="_blank" rel="noopener">微信开放平台</a> 上同时绑定 公众号和小程序。</li>
+</ol>
+</blockquote>
+<h4 id="Java示例"><a href="#Java示例" class="headerlink" title="Java示例"></a>Java示例</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableConfigurationProperties</span>(WxMpProperties.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WxMpServiceConfiguration</span> </span>&#123;</span><br><span class="line">  ......</span><br><span class="line">  <span class="meta">@Autowired</span></span><br><span class="line">  <span class="keyword">private</span> LogHandler logHandler;</span><br><span class="line">  <span class="meta">@Autowired</span></span><br><span class="line">  <span class="keyword">private</span> UnsubscribeHandler unsubscribeHandler;</span><br><span class="line">  <span class="meta">@Autowired</span></span><br><span class="line">  <span class="keyword">private</span> SubscribeHandler subscribeHandler;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Bean</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> WxMpMessageRouter <span class="title">messageRouter</span><span class="params">(WxMpService wxMpService)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> WxMpMessageRouter newRouter = <span class="keyword">new</span> WxMpMessageRouter(wxMpService);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 记录所有事件的日志 （异步执行）</span></span><br><span class="line">    newRouter.rule().handler(<span class="keyword">this</span>.logHandler).next();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 关注事件</span></span><br><span class="line">    newRouter.rule().async(<span class="keyword">false</span>).msgType(WxConsts.XmlMsgType.EVENT)</span><br><span class="line">      .event(WxConsts.EventType.SUBSCRIBE).handler(<span class="keyword">this</span>.subscribeHandler)</span><br><span class="line">      .end();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 取消关注事件</span></span><br><span class="line">    newRouter.rule().async(<span class="keyword">false</span>).msgType(WxConsts.XmlMsgType.EVENT)</span><br><span class="line">      .event(WxConsts.EventType.UNSUBSCRIBE)</span><br><span class="line">      .handler(<span class="keyword">this</span>.unsubscribeHandler).end();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> newRouter;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractHandler</span> <span class="keyword">implements</span> <span class="title">WxMpMessageHandler</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractBuilder</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> WxMpXmlOutMessage <span class="title">build</span><span class="params">(String content,</span></span></span><br><span class="line"><span class="function"><span class="params">                                            WxMpXmlMessage wxMessage, WxMpService service)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LogHandler</span> <span class="keyword">extends</span> <span class="title">AbstractHandler</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> WxMpXmlOutMessage <span class="title">handle</span><span class="params">(WxMpXmlMessage wxMessage,</span></span></span><br><span class="line"><span class="function"><span class="params">                                    Map&lt;String, Object&gt; context, WxMpService wxMpService,</span></span></span><br><span class="line"><span class="function"><span class="params">                                    WxSessionManager sessionManager)</span> </span>&#123;</span><br><span class="line">        log.info(<span class="string">"\n接收到请求消息，内容：&#123;&#125;"</span>, JSONObject.toJSONString(wxMessage));</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SubscribeHandler</span> <span class="keyword">extends</span> <span class="title">AbstractHandler</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> WxMpXmlOutMessage <span class="title">handle</span><span class="params">(WxMpXmlMessage wxMessage,</span></span></span><br><span class="line"><span class="function"><span class="params">                                    Map&lt;String, Object&gt; context,</span></span></span><br><span class="line"><span class="function"><span class="params">                                    WxMpService weixinService,</span></span></span><br><span class="line"><span class="function"><span class="params">                                    WxSessionManager sessionManager)</span> <span class="keyword">throws</span> WxErrorException </span>&#123;</span><br><span class="line">        log.info(<span class="string">"新关注用户 OPENID: "</span> + wxMessage.getFromUser());</span><br><span class="line">        <span class="comment">// 获取微信用户基本信息</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            WxMpUser userWxInfo = weixinService.getUserService().userInfo(wxMessage.getFromUser(), <span class="keyword">null</span>);</span><br><span class="line">            <span class="keyword">if</span> (userWxInfo != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="comment">// 可以添加关注用户到本地数据库</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (WxErrorException e) &#123;</span><br><span class="line">            <span class="keyword">if</span> (e.getError().getErrorCode() == <span class="number">48001</span>) &#123;</span><br><span class="line">                log.info(<span class="string">"该公众号没有获取用户信息权限！"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        WxMpXmlOutMessage responseResult = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            responseResult = <span class="keyword">this</span>.handleSpecial(wxMessage);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            log.error(e.getMessage(), e);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (responseResult != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> responseResult;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> TextBuilder().build(<span class="string">"感谢关注"</span>, wxMessage, weixinService);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            log.error(e.getMessage(), e);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 处理特殊请求，比如如果是扫码进来的，可以做相应处理</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> WxMpXmlOutMessage <span class="title">handleSpecial</span><span class="params">(WxMpXmlMessage wxMessage)</span></span></span><br><span class="line"><span class="function">            <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">//TODO</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TextBuilder</span> <span class="keyword">extends</span> <span class="title">AbstractBuilder</span> </span>&#123;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> WxMpXmlOutMessage <span class="title">build</span><span class="params">(String content, WxMpXmlMessage wxMessage,</span></span></span><br><span class="line"><span class="function"><span class="params">                                 WxMpService service)</span> </span>&#123;</span><br><span class="line">    WxMpXmlOutTextMessage m = WxMpXmlOutMessage.TEXT().content(content)</span><br><span class="line">      .fromUser(wxMessage.getToUser()).toUser(wxMessage.getFromUser())</span><br><span class="line">      .build();</span><br><span class="line">    <span class="keyword">return</span> m;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UnsubscribeHandler</span> <span class="keyword">extends</span> <span class="title">AbstractHandler</span> </span>&#123;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> WxMpXmlOutMessage <span class="title">handle</span><span class="params">(WxMpXmlMessage wxMessage,</span></span></span><br><span class="line"><span class="function"><span class="params">                                  Map&lt;String, Object&gt; context, WxMpService wxMpService,</span></span></span><br><span class="line"><span class="function"><span class="params">                                  WxSessionManager sessionManager)</span> </span>&#123;</span><br><span class="line">    String openId = wxMessage.getFromUser();</span><br><span class="line">    <span class="comment">// 取消订阅只能返回 openId</span></span><br><span class="line">    log.info(<span class="string">"取消关注用户 OPENID: "</span> + openId);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="客服消息"><a href="#客服消息" class="headerlink" title="客服消息"></a>客服消息</h3><p>​    当用户和公众号产生特定动作的交互时（具体动作列表请见下方说明），微信将会把消息数据推送给开发者，开发者可以在一段时间内（目前修改为48小时）调用客服接口，通过POST一个JSON数据包来发送消息给普通用户。此接口主要用于客服等有人工消息处理环节的功能，方便开发者为用户提供更加优质的服务。</p>
+<p>​    目前允许的动作列表如下（公众平台会根据运营情况更新该列表，不同动作触发后，允许的客服接口下发消息条数不同，下发条数达到上限后，会遇到错误返回码，具体请见<a href="https://mp.weixin.qq.com/wiki?action=doc&amp;id=mp1433747234&amp;t=0.5907622380182147" target="_blank" rel="noopener">返回码说明页</a>）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1、用户发送信息</span><br><span class="line">2、点击自定义菜单（仅有点击推事件、扫码推事件、扫码推事件且弹出“消息接收中”提示框这3种菜单类型是会触发客服接口的）</span><br><span class="line">3、关注公众号</span><br><span class="line">4、扫描二维码</span><br><span class="line">5、支付成功</span><br><span class="line">6、用户维权</span><br></pre></td></tr></table></figure>
+<p>另外，请开发者注意，本接口中所有使用到media_id的地方，现在都可以使用素材管理中的永久素材media_id了。</p>
+<h4 id="Java示例-1"><a href="#Java示例-1" class="headerlink" title="Java示例"></a>Java示例</h4><p><code>me.chanjar.weixin.mp.api.WxMpKefuService#sendKefuMessage</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 发送客服消息，发送图片</span></span><br><span class="line">adapter.getKefuService().sendKefuMessage(WxMpKefuMessage.IMAGE()</span><br><span class="line">                                       .mediaId(mediaId).toUser(wxMessage.getFromUser()).build());</span><br></pre></td></tr></table></figure>
+<h3 id="模板消息"><a href="#模板消息" class="headerlink" title="模板消息"></a>模板消息</h3><p>​    模板消息仅用于公众号向用户发送重要的服务通知，只能用于符合其要求的服务场景中，如信用卡刷卡通知，商品购买成功通知等。不支持广告等营销类消息以及其它所有可能对用户造成骚扰的消息。</p>
+<p>​    在模版消息发送任务完成后，微信服务器会将是否送达成功作为通知，发送到开发者中心中填写的服务器配置地址中。</p>
+<p>关于使用规则，请注意：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1、所有服务号都可以在功能-&gt;添加功能插件处看到申请模板消息功能的入口，但只有认证后的服务号才可以申请模板消息的使用权限并获得该权限；</span><br><span class="line">2、需要选择公众账号服务所处的2个行业，每月可更改1次所选行业；</span><br><span class="line">3、在所选择行业的模板库中选用已有的模板进行调用；</span><br><span class="line">4、每个账号可以同时使用25个模板。</span><br><span class="line">5、当前每个账号的模板消息的日调用上限为10万次，单个模板没有特殊限制。【2014年11月18日将接口调用频率从默认的日1万次提升为日10万次，可在MP登录后的开发者中心查看】。当账号粉丝数超过10W/100W/1000W时，模板消息的日调用上限会相应提升，以公众号MP后台开发者中心页面中标明的数字为准。</span><br></pre></td></tr></table></figure>
+<h4 id="注意点-1"><a href="#注意点-1" class="headerlink" title="注意点"></a>注意点</h4><blockquote>
+<ol>
+<li><strong>如果模板消息要支持跳转小程序的话，需要在公众号上添加小程序关联。<code>小程序 &gt; 小程序管理</code></strong> </li>
+</ol>
+</blockquote>
+<h4 id="Java示例-2"><a href="#Java示例-2" class="headerlink" title="Java示例"></a>Java示例</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Boolean <span class="title">sendTemplateMsg</span><span class="params">(WxMpTemplateMessageBO templateMessageBO)</span> <span class="keyword">throws</span> WxErrorException </span>&#123;</span><br><span class="line"></span><br><span class="line">  WxMpTemplateMessage.MiniProgram miniProgram = <span class="keyword">null</span>;</span><br><span class="line">  <span class="keyword">if</span> (templateMessageBO.getMiniProgram() != <span class="keyword">null</span>) &#123;</span><br><span class="line">    miniProgram = <span class="keyword">new</span> WxMpTemplateMessage.MiniProgram();</span><br><span class="line">    miniProgram.setAppid(templateMessageBO.getMiniProgram().getAppid());</span><br><span class="line">    miniProgram.setPagePath(templateMessageBO.getMiniProgram().getPagePath());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()</span><br><span class="line">    .toUser(templateMessageBO.getToUser())</span><br><span class="line">    .templateId(templateMessageBO.getTemplateId())</span><br><span class="line">    .url(templateMessageBO.getUrl())</span><br><span class="line">    .miniProgram(miniProgram)</span><br><span class="line">    .data(templateMessageBO.getData().stream().map(e -&gt; &#123;</span><br><span class="line">      WxMpTemplateData data = <span class="keyword">new</span> WxMpTemplateData();</span><br><span class="line">      data.setColor(e.getColor());</span><br><span class="line">      data.setName(e.getName());</span><br><span class="line">      data.setValue(e.getValue());</span><br><span class="line">      <span class="keyword">return</span> data;</span><br><span class="line">    &#125;).collect(Collectors.toList()))</span><br><span class="line">    .build();</span><br><span class="line"></span><br><span class="line">  String result = wxService.getTemplateMsgService().sendTemplateMsg(templateMessage);</span><br><span class="line">  log.info(<span class="string">"WxMpServiceAdapter.sendTemplateMsg result:&#123;&#125;"</span>, result);</span><br><span class="line">  <span class="keyword">return</span> StringUtils.isNotEmpty(result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">是否必填</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">touser</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">接收者openid</td>
+</tr>
+<tr>
+<td style="text-align:left">template_id</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">模板ID</td>
+</tr>
+<tr>
+<td style="text-align:left">url</td>
+<td style="text-align:left">否</td>
+<td style="text-align:left">模板跳转链接（海外帐号没有跳转能力）</td>
+</tr>
+<tr>
+<td style="text-align:left">miniprogram</td>
+<td style="text-align:left">否</td>
+<td style="text-align:left">跳小程序所需数据，不需跳小程序可不用传该数据</td>
+</tr>
+<tr>
+<td style="text-align:left">appid</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">所需跳转到的小程序appid（该小程序appid必须与发模板消息的公众号是绑定关联关系，暂不支持小游戏）</td>
+</tr>
+<tr>
+<td style="text-align:left">pagepath</td>
+<td style="text-align:left">否</td>
+<td style="text-align:left">所需跳转到小程序的具体页面路径，支持带参数,（示例index?foo=bar），要求该小程序已发布，暂不支持小游戏</td>
+</tr>
+<tr>
+<td style="text-align:left">data</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">模板数据</td>
+</tr>
+<tr>
+<td style="text-align:left">color</td>
+<td style="text-align:left">否</td>
+<td style="text-align:left">模板内容字体颜色，不填默认为黑色</td>
+</tr>
+</tbody>
+</table>
+<p><strong>注：url和miniprogram都是非必填字段，若都不传则模板无跳转；若都传，会优先跳转至小程序。开发者可根据实际需要选择其中一种跳转方式即可。当用户的微信客户端版本不支持跳小程序时，将会跳转至url。</strong></p>
+<p>在调用模板消息接口后，会返回JSON数据包。正常时的返回JSON数据包示例：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   <span class="attr">"errcode"</span>:<span class="number">0</span>,</span><br><span class="line">    <span class="attr">"errmsg"</span>:<span class="string">"ok"</span>,</span><br><span class="line">    <span class="attr">"msgid"</span>:<span class="number">200228332</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="素材管理"><a href="#素材管理" class="headerlink" title="素材管理"></a>素材管理</h2><p>​    公众号经常有需要用到一些临时性的多媒体素材的场景，例如在使用接口特别是发送消息时，对多媒体文件、多媒体消息的获取和调用等操作，是通过media_id来进行的。素材管理接口对所有认证的订阅号和服务号开放。通过本接口，公众号可以新增临时素材（即上传临时多媒体文件）。</p>
+<p>注意点：</p>
+<ol>
+<li><p>临时素材media_id是可复用的。</p>
+</li>
+<li><p><strong>媒体文件在微信后台保存时间为3天，即3天后media_id失效。</strong></p>
+</li>
+<li><p>上传临时素材的格式、大小限制与公众平台官网一致。</p>
+<ol>
+<li>图片（image）: 2M，支持PNG\JPEG\JPG\GIF格式`</li>
+<li>语音（voice）：2M，播放长度不超过60s，支持AMR\MP3格式</li>
+<li>视频（video）：10MB，支持MP4格式</li>
+<li>缩略图（thumb）：64KB，支持JPG格式</li>
+</ol>
+</li>
+<li><p>需使用https调用本接口。</p>
+</li>
+</ol>
+<p><strong>参数说明</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">是否必须</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">access_token</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">调用接口凭证</td>
+</tr>
+<tr>
+<td style="text-align:left">type</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">媒体文件类型，分别有图片（image）、语音（voice）、视频（video）和缩略图（thumb）</td>
+</tr>
+<tr>
+<td style="text-align:left">media</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">form-data中媒体文件标识，有filename、filelength、content-type等信息</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回说明</strong></p>
+<p>正确情况下的返回JSON数据包结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;type&quot;:&quot;TYPE&quot;,&quot;media_id&quot;:&quot;MEDIA_ID&quot;,&quot;created_at&quot;:123456789&#125;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">type</td>
+<td style="text-align:left">媒体文件类型，分别有图片（image）、语音（voice）、视频（video）和缩略图（thumb，主要用于视频与音乐格式的缩略图）</td>
+</tr>
+<tr>
+<td style="text-align:left">media_id</td>
+<td style="text-align:left">媒体文件上传后，获取标识</td>
+</tr>
+<tr>
+<td style="text-align:left">created_at</td>
+<td style="text-align:left">媒体文件上传时间戳</td>
+</tr>
+</tbody>
+</table>
+<p>错误情况下的返回JSON数据包示例如下（示例为无效媒体类型错误）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;errcode&quot;:40004,&quot;errmsg&quot;:&quot;invalid media type&quot;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Java示例-3"><a href="#Java示例-3" class="headerlink" title="Java示例"></a>Java示例</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> String <span class="title">getImageMediaId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  String mediaId = (String) redisTemplate.opsForValue().get(CQ_OREVER_MATERIAL);</span><br><span class="line">  <span class="comment">// 获取声音或者图片永久素材</span></span><br><span class="line">  <span class="keyword">try</span> (InputStream inputStream = adapter.getMaterialService().materialImageOrVoiceDownload(mediaId)) &#123;</span><br><span class="line">    <span class="keyword">if</span> (inputStream != <span class="keyword">null</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> mediaId;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">    log.error(<span class="string">" getMaterialService.materialImageOrVoiceDownload error"</span>, e);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 新增非图文永久素材</span></span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    WxMpMaterial material = createWxMpMaterial();</span><br><span class="line">    WxMpMaterialUploadResult result = adapter.getMaterialService()</span><br><span class="line">      .materialFileUpload(<span class="string">"image"</span>, material);</span><br><span class="line">    <span class="keyword">return</span> result.getMediaId();</span><br><span class="line">  &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">    log.error(<span class="string">" getMaterialService.materialFileUpload error"</span>, e);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> WxMpMaterial <span class="title">createWxMpMaterial</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">  WxMpMaterial material = <span class="keyword">new</span> WxMpMaterial();</span><br><span class="line">  material.setName(<span class="string">"微信小程序二维码"</span>);</span><br><span class="line">  material.setFile(<span class="keyword">new</span> ClassPathResource(<span class="string">"qrcode_for_service.jpg"</span>).getFile());</span><br><span class="line">  <span class="keyword">return</span> material;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>me.chanjar.weixin.mp.api.WxMpMaterialService#materialFileBatchGet</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 分页获取其他媒体素材列表</span></span><br><span class="line"><span class="function">WxMpMaterialFileBatchGetResult <span class="title">materialFileBatchGet</span><span class="params">(String type, <span class="keyword">int</span> offset, <span class="keyword">int</span> count)</span> <span class="keyword">throws</span> WxErrorException</span>;</span><br></pre></td></tr></table></figure>
+<p>​    </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://adeng-wc.github.io/2019/05/31/使用WxJava开发微信小程序/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -312,10 +640,22 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">debug: false</span><br><span class="line">logging:</span><br><span class="line">  level:</span><br><span class="line">    org.springframework.web: info</span><br><span class="line">    cn.binarywang.wx.miniapp: info</span><br><span class="line">    me.chanjar.weixin: info</span><br><span class="line">wx:</span><br><span class="line">  miniapp:</span><br><span class="line">    configs:</span><br><span class="line">      - appid: appid</span><br><span class="line">        secret: appidsecret</span><br><span class="line">        token: # cqtest  (测试环境)</span><br><span class="line">        aesKey: # RGAioK00rOP3TKnNVMVtBvCarimzvq4AFqltvAT0TiF </span><br><span class="line">        msgDataFormat: JSON</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>Java配置</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@ConfigurationProperties</span>(prefix = <span class="string">"wx.miniapp"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WxMaProperties</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Config&gt; configs;</span><br><span class="line">    <span class="meta">@Data</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Config</span> </span>&#123;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 设置微信小程序的appid</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">private</span> String appid;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 设置微信小程序的Secret</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">private</span> String secret;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 设置微信小程序消息服务器配置的token</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">private</span> String token;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 设置微信小程序消息服务器配置的EncodingAESKey</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">private</span> String aesKey;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 消息格式，XML或者JSON</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">private</span> String msgDataFormat;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableConfigurationProperties</span>(WxMaProperties.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WxMaServiceConfiguration</span> </span>&#123;</span><br><span class="line">  <span class="meta">@Autowired</span></span><br><span class="line">  <span class="keyword">private</span> WxMaProperties properties;</span><br><span class="line">  <span class="comment">//按照appid分wxMaService</span></span><br><span class="line">  <span class="keyword">private</span>   Map&lt;String, WxMaService&gt; maServices = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">  <span class="meta">@PostConstruct</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    maServices = <span class="keyword">this</span>.properties.getConfigs().stream()</span><br><span class="line">      .map(a -&gt; &#123;</span><br><span class="line">        WxMaInMemoryConfig config = <span class="keyword">new</span> WxMaInMemoryConfig();</span><br><span class="line">        config.setAppid(a.getAppid());</span><br><span class="line">        config.setSecret(a.getSecret());</span><br><span class="line">        config.setToken(a.getToken());</span><br><span class="line">        config.setAesKey(a.getAesKey());</span><br><span class="line">        config.setMsgDataFormat(a.getMsgDataFormat());</span><br><span class="line">        WxMaService service = <span class="keyword">new</span> WxMaServiceImpl();</span><br><span class="line">        service.setWxMaConfig(config);</span><br><span class="line">        <span class="keyword">return</span> service;</span><br><span class="line">      &#125;).collect(Collectors.toMap(s -&gt; s.getWxMaConfig().getAppid(), a -&gt; a));   </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> WxMaService <span class="title">getMaService</span><span class="params">(String appid)</span> </span>&#123;</span><br><span class="line">    WxMaService wxService = maServices.get(appid);</span><br><span class="line">    <span class="keyword">if</span> (wxService == <span class="keyword">null</span>) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(String.format(<span class="string">"未找到对应appid=[%s]的配置，请核实！"</span>, appid));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> wxService;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@ConfigurationProperties</span>(prefix = <span class="string">"wx.miniapp"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WxMaProperties</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Config&gt; configs;</span><br><span class="line">    <span class="meta">@Data</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Config</span> </span>&#123;</span><br><span class="line">        <span class="comment">//设置微信小程序的appid</span></span><br><span class="line">        <span class="keyword">private</span> String appid;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//设置微信小程序的Secret</span></span><br><span class="line">        <span class="keyword">private</span> String secret;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//设置微信小程序消息服务器配置的token</span></span><br><span class="line">        <span class="keyword">private</span> String token;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//设置微信小程序消息服务器配置的EncodingAESKey</span></span><br><span class="line">        <span class="keyword">private</span> String aesKey;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//消息格式，XML或者JSON</span></span><br><span class="line">        <span class="keyword">private</span> String msgDataFormat;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
+   <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">@Configuration</span></span><br><span class="line"> <span class="meta">@EnableConfigurationProperties</span>(WxMaProperties.class)</span><br><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WxMaServiceConfiguration</span> </span>&#123;</span><br><span class="line">   <span class="meta">@Autowired</span></span><br><span class="line">   <span class="keyword">private</span> WxMaProperties properties;</span><br><span class="line">   <span class="comment">//按照appid分wxMaService</span></span><br><span class="line">   <span class="keyword">private</span>   Map&lt;String, WxMaService&gt; maServices = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"> </span><br><span class="line"><span class="meta">@PostConstruct</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     maServices = <span class="keyword">this</span>.properties.getConfigs().stream()</span><br><span class="line">       .map(a -&gt; &#123;</span><br><span class="line">         WxMaInMemoryConfig config = <span class="keyword">new</span> WxMaInMemoryConfig();</span><br><span class="line">         config.setAppid(a.getAppid());</span><br><span class="line">         config.setSecret(a.getSecret());</span><br><span class="line">         config.setToken(a.getToken());</span><br><span class="line">         config.setAesKey(a.getAesKey());</span><br><span class="line">         config.setMsgDataFormat(a.getMsgDataFormat());</span><br><span class="line">         WxMaService service = <span class="keyword">new</span> WxMaServiceImpl();</span><br><span class="line">         service.setWxMaConfig(config);</span><br><span class="line">         <span class="keyword">return</span> service;</span><br><span class="line">       &#125;).collect(Collectors.toMap(s -&gt; s.getWxMaConfig().getAppid(), a -&gt; a));   </span><br><span class="line">   &#125;</span><br><span class="line"> </span><br><span class="line">   <span class="function"><span class="keyword">public</span> WxMaService <span class="title">getMaService</span><span class="params">(String appid)</span> </span>&#123;</span><br><span class="line">     WxMaService wxService = maServices.get(appid);</span><br><span class="line">     <span class="keyword">if</span> (wxService == <span class="keyword">null</span>) &#123;</span><br><span class="line">       <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(String.format(<span class="string">"未找到对应appid=[%s]的配置，请核实！"</span>, appid));</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span> wxService;</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><blockquote>
+<ol>
+<li>使用之前，需要保证使用 JRE/JDK 8u151 之后的版本，或者替换两个jar，否则加密时会出现 <code>java.security.InvalidKeyException: Illegal key size</code> 的问题。<a href="https://github.com/Wechat-Group/WxJava/wiki/%E5%8A%A0%E8%A7%A3%E5%AF%86%E7%9A%84%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E5%8A%9E%E6%B3%95" target="_blank" rel="noopener">详见</a></li>
+</ol>
+</blockquote>
+<h2 id="access-token"><a href="#access-token" class="headerlink" title="access_token"></a>access_token</h2><p>​    <a href="https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/access-token/auth.getAccessToken.html" target="_blank" rel="noopener">接口调用凭证</a>，调用绝大多数后台接口时都需使用 access_token，开发者需要进行妥善保存。</p>
+<p>​    <code>weixin-java-miniapp</code>对 access_token 做了相应的封装，每次调用接口的时候都会主动获取 access_token 。</p>
+<p>​    <code>cn.binarywang.wx.miniapp.api.impl.WxMaServiceImpl#executeInternal</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> &lt;T, E&gt; <span class="function">T <span class="title">executeInternal</span><span class="params">(RequestExecutor&lt;T, E&gt; executor, String uri, E data)</span> <span class="keyword">throws</span> WxErrorException </span>&#123;</span><br><span class="line">  ......</span><br><span class="line">    <span class="keyword">if</span> (uri.contains(<span class="string">"access_token="</span>)) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"uri参数中不允许有access_token: "</span> + uri);</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="comment">// 获取 access_token</span></span><br><span class="line">  String accessToken = getAccessToken(<span class="keyword">false</span>);</span><br><span class="line">  String uriWithAccessToken = uri + (uri.contains(<span class="string">"?"</span>) ? <span class="string">"&amp;"</span> : <span class="string">"?"</span>) + <span class="string">"access_token="</span> + accessToken;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    T result = executor.execute(uriWithAccessToken, data);</span><br><span class="line">    log.debug(<span class="string">"\n【请求地址】: &#123;&#125;\n【请求参数】：&#123;&#125;\n【响应数据】：&#123;&#125;"</span>, uriWithAccessToken, dataForLog, result);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125; <span class="keyword">catch</span> (WxErrorException e) &#123;</span><br><span class="line">    ......</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getAccessToken</span><span class="params">(<span class="keyword">boolean</span> forceRefresh)</span> <span class="keyword">throws</span> WxErrorException </span>&#123;</span><br><span class="line">  Lock lock = <span class="keyword">this</span>.getWxMaConfig().getAccessTokenLock();</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    lock.lock();</span><br><span class="line">    <span class="comment">// 判断 access_token 是否超时</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.getWxMaConfig().isAccessTokenExpired() || forceRefresh) &#123;</span><br><span class="line">      String url = String.format(WxMaService.GET_ACCESS_TOKEN_URL, <span class="keyword">this</span>.getWxMaConfig().getAppid(),</span><br><span class="line">                                 <span class="keyword">this</span>.getWxMaConfig().getSecret());</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        HttpGet httpGet = <span class="keyword">new</span> HttpGet(url);</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.getRequestHttpProxy() != <span class="keyword">null</span>) &#123;</span><br><span class="line">          RequestConfig config = RequestConfig.custom().setProxy(<span class="keyword">this</span>.getRequestHttpProxy()).build();</span><br><span class="line">          httpGet.setConfig(config);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> (CloseableHttpResponse response = getRequestHttpClient().execute(httpGet)) &#123;</span><br><span class="line">          String resultContent = <span class="keyword">new</span> BasicResponseHandler().handleResponse(response);</span><br><span class="line">          WxError error = WxError.fromJson(resultContent);</span><br><span class="line">          <span class="keyword">if</span> (error.getErrorCode() != <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> WxErrorException(error);</span><br><span class="line">          &#125;</span><br><span class="line">          WxAccessToken accessToken = WxAccessToken.fromJson(resultContent);</span><br><span class="line">          <span class="comment">// 更新新的 access_token</span></span><br><span class="line">          <span class="keyword">this</span>.getWxMaConfig().updateAccessToken(accessToken.getAccessToken(),</span><br><span class="line">                                                 accessToken.getExpiresIn());</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">          httpGet.releaseConnection();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    lock.unlock();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.getWxMaConfig().getAccessToken();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="注意-1"><a href="#注意-1" class="headerlink" title="注意"></a>注意</h3><p>​    <code>weixin-java-miniapp</code> 中使用 <code>cn.binarywang.wx.miniapp.config.WxMaConfig</code> 记录着 <code>access_token</code> ，在 <code>access_token</code> 超时之前都可以直接从 <code>WxMaConfig</code> 中获取。需要注意的是，每次请求的<code>access_token</code>都是不一样的，即使在超时时间内，获取到的也是新的 access_token 。</p>
+<p>​    <code>weixin-java-miniapp</code> 中 <code>cn.binarywang.wx.miniapp.config.WxMaConfig</code> 的实现类只有 <code>cn.binarywang.wx.miniapp.config.WxMaInMemoryConfig</code>类，是基于本地内存存储的，<strong>在生产环境多机器环境中应该将这些配置持久化到一个独立的地方(可以使用Redis)</strong>。</p>
+<p>​    比如，继承 <code>WxMaInMemoryConfig</code> ，利用 Redis 重写 <code>getAccessToken</code> 、<code>updateAccessToken</code> 等方法。然后在初始化 <code>WxMaService</code> 的时候使用自定义的 <code>WxMaConfig</code>。</p>
 <h2 id="用户信息"><a href="#用户信息" class="headerlink" title="用户信息"></a>用户信息</h2><h3 id="小程序登录"><a href="#小程序登录" class="headerlink" title="小程序登录"></a>小程序登录</h3><p>微信小程序提供的登录流程时序</p>
 <p><img src="https://res.wx.qq.com/wxdoc/dist/assets/img/api-login.2fcc9f35.jpg" alt="img"></p>
 <p>说明：</p>
@@ -324,8 +664,7 @@
 <li><strong>开发者服务器</strong> 调用 <a href="https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/login/auth.code2Session.html" target="_blank" rel="noopener">auth.code2Session</a> 接口，换取 <strong>用户唯一标识 OpenID</strong> 和 <strong>会话密钥 session_key</strong>。</li>
 </ol>
 <p>之后开发者服务器可以根据用户标识来生成自定义登录态，用于后续业务逻辑中前后端交互时识别用户身份。</p>
-<p>注意：</p>
-<ol>
+<h4 id="注意-2"><a href="#注意-2" class="headerlink" title="注意"></a>注意</h4><ol>
 <li>会话密钥 <code>session_key</code> 是对用户数据进行 <a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html" target="_blank" rel="noopener">加密签名</a> 的密钥。为了应用自身的数据安全，开发者服务器<strong>不应该把会话密钥下发到小程序，也不应该对外提供这个密钥</strong>。</li>
 <li>临时登录凭证 code 只能使用一次</li>
 </ol>
@@ -346,6 +685,10 @@
 </li>
 <li>模板跳转能力：点击查看详情仅能跳转下发模板的该帐号的各个页面</li>
 </ul>
+<h4 id="注意-3"><a href="#注意-3" class="headerlink" title="注意"></a>注意</h4><ol>
+<li>发送模板消息之前需要有相关的模板，获取该模板ID</li>
+<li>发送模板消息的时候，还需要前端收集的 form_id (用户提交表单下产生的。也就是先收集用户产生的 form_id ，然后再利用 form_id 发送模板消息。form_id 的有限期是7天。</li>
+</ol>
 <h3 id="客服消息"><a href="#客服消息" class="headerlink" title="客服消息"></a>客服消息</h3><p>​    <a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/customer-message/customer-message.html" target="_blank" rel="noopener">微信官方文档·小程序·开放能力·消息·客服消息</a></p>
 <p>​    在页面使用客服消息</p>
 <p>​    需要将 <a href="https://developers.weixin.qq.com/miniprogram/dev/component/button.html" target="_blank" rel="noopener">button</a> 组件 <code>open-type</code> 的值设置为 <code>contact</code>，当用户点击后就会进入客服会话，如果用户在会话中点击了小程序消息，则会返回到小程序，开发者可以通过 <code>bindcontact</code> 事件回调获取到用户所点消息的页面路径 <code>path</code> 和对应的参数 <code>query</code>。</p>
@@ -370,6 +713,9 @@
 </tr>
 </tbody>
 </table>
+<h4 id="注意-4"><a href="#注意-4" class="headerlink" title="注意"></a>注意</h4><ol>
+<li>利用客服接口，可以针对一个请求，恢复多条内容。比如，用户发送了一个1，客服可以回复图片和文字两条消息。</li>
+</ol>
 <h3 id="Java后台消息"><a href="#Java后台消息" class="headerlink" title="Java后台消息"></a>Java后台消息</h3><h4 id="发送模板消息"><a href="#发送模板消息" class="headerlink" title="发送模板消息"></a>发送模板消息</h4><p> <code>cn.binarywang.wx.miniapp.api.WxMaMsgService#sendTemplateMsg</code></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> WxMaService wxService = wxMaServiceConfiguration.getMaService(getAppId());</span><br><span class="line">WxMaMsgService maMsgService = wxService.getMsgService();</span><br><span class="line">WxMaTemplateMessage message = WxMaTemplateMessage.builder()</span><br><span class="line">  .toUser(messageBO.getToUser())</span><br><span class="line">  .templateId(messageBO.getTemplateId())</span><br><span class="line">  .formId(messageBO.getFormId())</span><br><span class="line">  .page(messageBO.getPage())</span><br><span class="line">  .color(messageBO.getColor())</span><br><span class="line">  .emphasisKeyword(messageBO.getEmphasisKeyword())</span><br><span class="line">  .data(messageBO.getData().stream()</span><br><span class="line">        .map(TemplateDataAssembler::buildWxMaTemplateMessage)</span><br><span class="line">        .collect(Collectors.toList()))</span><br><span class="line">  .build();</span><br><span class="line"></span><br><span class="line">maMsgService.sendTemplateMsg(message);</span><br></pre></td></tr></table></figure>
 <h4 id="发送客服消息"><a href="#发送客服消息" class="headerlink" title="发送客服消息"></a>发送客服消息</h4><p>​    用户发送客服消息，开发者需要填写服务器配置。</p>
@@ -1109,7 +1455,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1122,7 +1468,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>

@@ -3,104 +3,137 @@
 <head>
   <meta charset="utf-8">
   
-<!-- Google Analytics -->
-<script type="text/javascript">
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-142508059-1', 'auto');
-ga('send', 'pageview');
-
-</script>
-<!-- End Google Analytics -->
-
-
   
   <title>使用WxJava开发微信公众号 | 爱登堡</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="公众号(服务号)配置利用 weixin-java-mp 配置 appId 和 secret 。  添加pom.xml依赖 12345&lt;dependency&gt;	&lt;groupId&gt;com.github.binarywang&lt;&#x2F;groupId&gt;	&lt;artifactId&gt;weixin-java-mp&lt;&#x2F;artifactId&gt;	&lt;versio">
-<meta property="og:type" content="article">
-<meta property="og:title" content="使用WxJava开发微信公众号">
-<meta property="og:url" content="https://adeng-wc.github.io/2019/06/03/%E4%BD%BF%E7%94%A8WxJava%E5%BC%80%E5%8F%91%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/index.html">
-<meta property="og:site_name" content="爱登堡">
-<meta property="og:description" content="公众号(服务号)配置利用 weixin-java-mp 配置 appId 和 secret 。  添加pom.xml依赖 12345&lt;dependency&gt;	&lt;groupId&gt;com.github.binarywang&lt;&#x2F;groupId&gt;	&lt;artifactId&gt;weixin-java-mp&lt;&#x2F;artifactId&gt;	&lt;versio">
-<meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2019-06-03T06:35:15.000Z">
-<meta property="article:modified_time" content="2019-06-04T02:08:39.040Z">
-<meta property="article:author" content="Weng Cheng">
-<meta property="article:tag" content="WxJava 公众号">
-<meta name="twitter:card" content="summary">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+    <meta name="description" content="此堡非彼堡">
+  
+  
   
     <link rel="alternate" href="/atom.xml" title="爱登堡" type="application/atom+xml">
   
   
-    <link rel="icon" href="/favicon.png">
+    <link rel="shortcut icon" href="/favicon.png">
   
   
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
   
   
 <link rel="stylesheet" href="/css/style.css">
 
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="/localshare/css/share.css">
+
+  
+  
 <meta name="generator" content="Hexo 5.4.0"></head>
 
 <body>
   <div id="container">
     <div id="wrap">
       <header id="header">
-  <div id="banner"></div>
   <div id="header-outer" class="outer">
     <div id="header-title" class="inner">
       <h1 id="logo-wrap">
         <a href="/" id="logo">爱登堡</a>
       </h1>
       
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">杂记</a>
+        </h2>
+      
     </div>
     <div id="header-inner" class="inner">
       <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
         
-          <a class="main-nav-link" href="/">Home</a>
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> 首页</a>
         
-          <a class="main-nav-link" href="/archives">Archives</a>
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> 归档</a>
+        
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> 关于</a>
+        
+          <a class="main-nav-link" href="/atom.xml"><i class="fa fa-rss"></i> 订阅</a>
         
       </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://adeng-wc.github.io"></form>
+    </div>
+    <div id="search-form">
+      <div id="result-mask" class="hide"></div>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="搜索"></label>
+      <div id="result-wrap" class="hide">
+        <div id="search-result"></div>
+      </div>
+      <div class="hide">
+        <template id="search-tpl">
+          <div class="item">
+            <a href="/{path}" title="{title}">
+              <div class="title">{title}</div>
+              <div class="time">{date}</div>
+              <div class="tags">{tags}</div>
+            </a>
+          </div>
+        </template>
       </div>
     </div>
   </div>
 </header>
+
       <div class="outer">
-        <section id="main"><article id="post-使用WxJava开发微信公众号" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/06/03/%E4%BD%BF%E7%94%A8WxJava%E5%BC%80%E5%8F%91%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/" class="article-date">
-  <time datetime="2019-06-03T06:35:15.000Z" itemprop="datePublished">2019-06-03</time>
-</a>
-    
-  </div>
+        <section id="main"><article id="post-使用WxJava开发微信公众号" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
     
       <header class="article-header">
         
   
-    <h1 class="article-title" itemprop="name">
+    <h1 class="p-name article-title" itemprop="headline name">
       使用WxJava开发微信公众号
     </h1>
   
 
+
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2019-06-03T06:35:15.000Z" itemprop="datePublished">2019年06月03日</time>
+</span>
+      
+      
+        <span class="article-views">
+  <i class="fa fa-views"></i>
+  <i id="busuanzi_container_page_pv">
+      <i id="busuanzi_value_page_pv"></i>
+  </i>
+</span>
+
+      
+      
+<a href="/2019/06/03/%E4%BD%BF%E7%94%A8WxJava%E5%BC%80%E5%8F%91%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/#comments" class="article-comment-link">
+  
+    
+    
+    
+    
+    
+  
+  <i class="fa fa-commt"></i>
+  留言
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
       
         <h2 id="公众号-服务号-配置"><a href="#公众号-服务号-配置" class="headerlink" title="公众号(服务号)配置"></a>公众号(服务号)配置</h2><p>利用 <code>weixin-java-mp</code> 配置 appId 和 secret 。</p>
 <ol>
@@ -366,22 +399,50 @@ ga('send', 'pageview');
 
 <p>​    </p>
 
+        
+            <div id="toc-article">
+                
+  <div class="widget-wrap" id="toc-wrap">
+    <h3 class="widget-title"><i class="fa fa-toc"></i> 文章目录</h3>
+    <div class="widget">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AC%E4%BC%97%E5%8F%B7-%E6%9C%8D%E5%8A%A1%E5%8F%B7-%E9%85%8D%E7%BD%AE"><span class="toc-text">公众号(服务号)配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#access-token"><span class="toc-text">access_token</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E5%85%A5%E6%B5%8B%E8%AF%95%E5%B9%B3%E5%8F%B0"><span class="toc-text">接入测试平台</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E7%AE%A1%E7%90%86"><span class="toc-text">消息管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%8F%B7%E9%80%9A%E7%9F%A5%E9%85%8D%E7%BD%AE"><span class="toc-text">服务号通知配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A5%E6%94%B6%E4%BA%8B%E4%BB%B6%E6%8E%A8%E9%80%81"><span class="toc-text">接收事件推送</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E6%B3%A8-%E5%8F%96%E6%B6%88%E5%85%B3%E6%B3%A8%E4%BA%8B%E4%BB%B6"><span class="toc-text">关注&#x2F;取消关注事件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E7%82%B9"><span class="toc-text">注意点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Java%E7%A4%BA%E4%BE%8B"><span class="toc-text">Java示例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%A2%E6%9C%8D%E6%B6%88%E6%81%AF"><span class="toc-text">客服消息</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Java%E7%A4%BA%E4%BE%8B-1"><span class="toc-text">Java示例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E6%9D%BF%E6%B6%88%E6%81%AF"><span class="toc-text">模板消息</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E7%82%B9-1"><span class="toc-text">注意点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Java%E7%A4%BA%E4%BE%8B-2"><span class="toc-text">Java示例</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A0%E6%9D%90%E7%AE%A1%E7%90%86"><span class="toc-text">素材管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E7%A4%BA%E4%BE%8B-3"><span class="toc-text">Java示例</span></a></li></ol></li></ol>
+    </div>
+  </div>
+
+
+            </div>
+        
+        
+          <blockquote id="copyright">
+              <p>原文链接: <a href="https://adeng-wc.github.io/2019/06/03/使用WxJava开发微信公众号/">https://adeng-wc.github.io/2019/06/03/使用WxJava开发微信公众号/</a></p>
+              <p>版权声明: 转载请注明出处.</p>
+          </blockquote>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://adeng-wc.github.io/2019/06/03/%E4%BD%BF%E7%94%A8WxJava%E5%BC%80%E5%8F%91%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/" data-id="ckvtb0r5a000bf2f65ug16ypb" class="article-share-link">Share</a>
       
-      
+        <div class="article-tag-wrap">
+          
+
+          
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WxJava-%E5%85%AC%E4%BC%97%E5%8F%B7/" rel="tag">WxJava 公众号</a></li></ul>
 
-    </footer>
-  </div>
-  
-    
+          
+    <div class="social-share">
+      <span>分享到:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+        
 <nav id="article-nav">
   
     <a href="/2019/08/27/diary-20190827/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
+      <strong class="article-nav-caption">newer</strong>
       <div class="article-nav-title">
         
           diary-20190827
@@ -391,54 +452,33 @@ ga('send', 'pageview');
   
   
     <a href="/2019/05/31/%E4%BD%BF%E7%94%A8WxJava%E5%BC%80%E5%8F%91%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
+      <strong class="article-nav-caption">older</strong>
       <div class="article-nav-title">使用WxJava开发微信小程序</div>
     </a>
   
 </nav>
 
-  
-</article>
+      
+      
+        
 
+
+
+
+
+
+
+      
+    </footer>
+  </div>
+</article>
 </section>
         
           <aside id="sidebar">
   
     
-
-  
-    
   <div class="widget-wrap">
-    <h3 class="widget-title">标签</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-Resource/" rel="tag">Java Resource</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Aop-Async/" rel="tag">Spring Aop Async</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Event-Listener/" rel="tag">Spring Event Listener</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WxJava-%E5%85%AC%E4%BC%97%E5%8F%B7/" rel="tag">WxJava 公众号</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WxJava-%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">WxJava 小程序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/diary-%E6%98%9F%E6%9C%9F%E4%B8%89/" rel="tag">diary 星期三</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/diary-%E6%98%9F%E6%9C%9F%E4%BA%8C/" rel="tag">diary 星期二</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/diary-%E6%98%9F%E6%9C%9F%E5%9B%9B/" rel="tag">diary 星期四</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE%E3%80%81%E6%AF%94%E7%89%B9%E5%B8%81/" rel="tag">区块链、比特币</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签云</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/Java-Resource/" style="font-size: 10px;">Java Resource</a> <a href="/tags/Spring-Aop-Async/" style="font-size: 10px;">Spring Aop Async</a> <a href="/tags/Spring-Event-Listener/" style="font-size: 10px;">Spring Event Listener</a> <a href="/tags/WxJava-%E5%85%AC%E4%BC%97%E5%8F%B7/" style="font-size: 10px;">WxJava 公众号</a> <a href="/tags/WxJava-%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 10px;">WxJava 小程序</a> <a href="/tags/diary-%E6%98%9F%E6%9C%9F%E4%B8%89/" style="font-size: 10px;">diary 星期三</a> <a href="/tags/diary-%E6%98%9F%E6%9C%9F%E4%BA%8C/" style="font-size: 10px;">diary 星期二</a> <a href="/tags/diary-%E6%98%9F%E6%9C%9F%E5%9B%9B/" style="font-size: 10px;">diary 星期四</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE%E3%80%81%E6%AF%94%E7%89%B9%E5%B8%81/" style="font-size: 10px;">区块链、比特币</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
+    <h3 class="widget-title"><i class="fa fa-posts"></i> 最新文章</h3>
     <div class="widget">
       <ul>
         
@@ -466,42 +506,145 @@ ga('send', 'pageview');
     </div>
   </div>
 
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-tag"></i> 标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Java-Resource/" style="font-size: 10px;">Java Resource</a> <a href="/tags/Spring-Aop-Async/" style="font-size: 10px;">Spring Aop Async</a> <a href="/tags/Spring-Event-Listener/" style="font-size: 10px;">Spring Event Listener</a> <a href="/tags/WxJava-%E5%85%AC%E4%BC%97%E5%8F%B7/" style="font-size: 10px;">WxJava 公众号</a> <a href="/tags/WxJava-%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 10px;">WxJava 小程序</a> <a href="/tags/diary-%E6%98%9F%E6%9C%9F%E4%B8%89/" style="font-size: 10px;">diary 星期三</a> <a href="/tags/diary-%E6%98%9F%E6%9C%9F%E4%BA%8C/" style="font-size: 10px;">diary 星期二</a> <a href="/tags/diary-%E6%98%9F%E6%9C%9F%E5%9B%9B/" style="font-size: 10px;">diary 星期四</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE%E3%80%81%E6%AF%94%E7%89%B9%E5%B8%81/" style="font-size: 10px;">区块链、比特币</a>
+    </div>
+  </div>
+
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-archive"></i> 归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020年02月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019年08月</a><span class="archive-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-tag"></i> 标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-Resource/" rel="tag">Java Resource</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Aop-Async/" rel="tag">Spring Aop Async</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Event-Listener/" rel="tag">Spring Event Listener</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WxJava-%E5%85%AC%E4%BC%97%E5%8F%B7/" rel="tag">WxJava 公众号</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WxJava-%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">WxJava 小程序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/diary-%E6%98%9F%E6%9C%9F%E4%B8%89/" rel="tag">diary 星期三</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/diary-%E6%98%9F%E6%9C%9F%E4%BA%8C/" rel="tag">diary 星期二</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/diary-%E6%98%9F%E6%9C%9F%E5%9B%9B/" rel="tag">diary 星期四</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE%E3%80%81%E6%AF%94%E7%89%B9%E5%B8%81/" rel="tag">区块链、比特币</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-link"></i> 友情链接</h3>
+    <div class="widget">
+      <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example1.com/">site-name1</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example2.com/">site-name2</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example3.com/">site-name3</a>
+        </li>
+      
+      </ul>
+    </div>
+  </div>
+
+
   
 </aside>
         
       </div>
+      <a id="totop" href="#top"></a>
       <footer id="footer">
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2021 Weng Cheng<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      <p>
+        <a href="/sitemap.xml">网站地图</a>
+        <span> | </span><a href="/atom.xml">订阅本站</a>
+        <span> | </span><a href="/about/">联系博主</a>
+      </p>
+      
+        <p>
+          <i class="fa fa-visitors"></i>
+          <i id="busuanzi_container_site_uv"><i id="busuanzi_value_site_uv"></i></i>
+          ，
+          <i class="fa fa-views"></i>
+          <i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>
+        </p>
+      
+      <p>
+        <span>Copyright &copy; 2021 Weng Cheng.</span>
+        <span>Theme by <a href="https://github.com/chaooo/hexo-theme-BlueLake/" target="_blank">BlueLake.</a></span>
+        
+            <span>Count by <a href="http://busuanzi.ibruce.info/" target="_blank">busuanzi.</a></span>
+        
+        <span>Powered by <a href="https://hexo.io/" target="_blank">Hexo.</a></span>
+      </p>
     </div>
   </div>
 </footer>
+
     </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
     
+<script src="/js/jquery-3.4.1.min.js"></script>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script src="/js/search.json.js"></script>
 
 
   
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-
-  
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script src="/fancybox/jquery.fancybox.min.js"></script>
 
 
 
 
 <script src="/js/script.js"></script>
+
+
+
+
+
+
+  
+<script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+  
+<script src="/localshare/js/social-share.js"></script>
+
+  
+<script src="/localshare/js/qrcode.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
